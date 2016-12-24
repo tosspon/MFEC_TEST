@@ -1,0 +1,92 @@
+//แก้ไขจากไฟล์ที่แล้วครับ
+package com.test;
+import com.sun.org.apache.xalan.internal.xsltc.dom.AbsoluteIterator;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class Shelved_Test {
+
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+
+        FileInputStream infile = new FileInputStream("d:/1.working_time.log"); //บอกที่อยู่ไฟล์เพื่อรับไฟล์เข้ามาอ่าน
+        InputStreamReader in = new InputStreamReader(infile, "TIS-620");       //รับไฟล์เข้ามาและแปลงภาษาของไฟล์ที่รับเข้ามา
+
+        try {
+            BufferedReader br = new BufferedReader(in); //อ่านช้อมูลในไฟล์ที่รับเข้ามา
+            String line;                                //ประกาศตัวแปรเพื่อใช้ในการอ่านข้อมูลเป็นบรรทัด
+            int i = 1;                                  //เก็บค่าในการนับจำนวนคนที่มาทำงาน
+            while ((line = br.readLine()) != null) {    //สร้าง Loop เพื่อให้อ่านข้อมูลในไฟล์ทั้งหมดทุกบรรทัด
+                String[] L = line.split("\\|");         //สร้าง array มาเก็บตัวแปรที่ตัดตัวอักขระ | ออก \\มีไว้เพื่อให้อ่านข้อมูลในไฟล์ได้
+                if (L.length == 5) {                    //ถ้า array ที่อ่านได้เท่ากับ 5 บรรทัด
+                              
+                    System.out.println("ลำดับ : " + i++);    //แสดงลำดับตามจำนวนที่ i นับได้ในการ วน Loop
+                    System.out.println("ชื่อ : " + L[0]);     //แสดงชื่อพนักงานในไฟล์ ชื่ออยู่ลำดับ array ที่ 0 เพราะ array จะนับ ตั้งแต่ 0 1 2 3 4
+                    try {                                   //เพื่อดักจับข้อผิดพลาดของการใช้คำสั่ง
+                        DateFormat df = new SimpleDateFormat("HH:mm");          //เพื่อจัดรูปแบบของ เวลา
+                        DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy");    //เพื่อจัดรูปแบบของ วัน/เดือน/ปี
+
+                        Date date = df.parse(L[2]);         //เพื่อรับค่าเวลาเข้าทำงาน จัดรูปแบบเป็น HH:mm
+                        Date date2 = df.parse(L[4]);        //เพื่อรับค่าเวลาเลิกงาน จัดรูปแบบเป็น HH:mm
+                        Date date3 = df2.parse(L[1]);       //เพื่อรับค่า วัน/เดือน/ปี ที่เข้างาน จัดรูปแบบเป็น dd/MM/yyyy
+                        Date date4 = df2.parse(L[3]);       //เพื่อรับค่า วัน/เดือน/ปี ที่เลิกงาน จัดรูปแบบเป็น dd/MM/yyyy
+                        String fromout = df2.format(date3);     //แปลงค่า Date ให้เป็น String จัดรูปแบบเป็น dd/MM/yyyy
+                        String fromout2 = df2.format(date4);    //แปลงค่า Date ให้เป็น String จัดรูปแบบเป็น dd/MM/yyyy
+                        System.out.println("วันที่เข้าทำงาน : " + fromout);     //แสดง วัน/เดือน/ปี ที่เข้าทำงานโดย จัดรูปแบบเป็น dd/MM/yyyy
+                        System.out.println("วันที่เข้าทำงาน : " + fromout2);    //แสดง วัน/เดือน/ปี ที่เลิกงานโดย จัดรูปแบบเป็น dd/MM/yyyy
+                        
+                        String fromout3 = df.format(date);      //แปลงค่า Date ให้เป็น String จัดรูปแบบเป็น dd/MM/yyyy
+                        String fromout4 = df.format(date2);;    //แปลงค่า Date ให้เป็น String จัดรูปแบบเป็น dd/MM/yyyy
+                        System.out.println("เวลาเข้างาน " + fromout3+" นาที");     //แสดงเวลาที่เข้าทำงานโดย จัดรูปแบบเป็น  HH:mm
+                        System.out.println("เวลาออกงาน " + fromout4+" นาที");    //แสดงเวลาที่เลิกงานโดย จัดรูปแบบเป็น  HH:mm
+                        double d = kidTang(date, date2);                    //เรียกใช้ method ในการคำนวณ จำนวนชั่วโมงในการทำงาน
+                        System.out.println("ค่าแรง/วัน : "+d+" บาท");         //รับค่า sum ที่ return กลับมา และ แสดงค่าแรง/วัน ของบุคคลากร
+                        
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //}
+                    System.out.println("<<<===================================>>>"); //เส้นกั้นแบ่งข้อมูลของบุคคลากรแต่ละลำดับ
+
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static double kidTang(Date datein, Date dateout){
+        double sum = 0.00;                                          //เพื่อเก็บค่าแรงในรูปแบบทศนิยม
+        double milliTime = dateout.getTime() - datein.getTime();    //เก็บค่าเวลามาอยู่ในรูปแบบทศนิยม
+        NumberFormat nf = NumberFormat.getNumberInstance();         //จัดรูปแบบในการแสดงเวลา
+        nf.setMaximumFractionDigits(0);                             //กำหนดเวลาเป็นนาที
+        nf.setRoundingMode(RoundingMode.HALF_UP);                   //เป็นการปัดเศษเลขเทศนิยม
+        int hour = Integer.parseInt(nf.format(milliTime/(1000*60*60))); //เก็บค่าชั่วโมงโดยคำนวณเวลาเป็น 1 ชั่วโมง
+        
+        if(hour >= 8){              //ถ้า ชม. >= 8 
+        hour = hour-1;         //ชม. = ชม. -1 ลบเวลาพักเที่ยง
+        
+        }
+        
+        sum = hour*36.25;           //คำนวณเงินค่าแรง/วัน
+        System.out.println("ชั่วโมงทำงาน : "+hour+" ชั่วโมง");          //แสดงเวลาที่คำนวณเป็นชั่วโมง
+        return sum;                                                //ส่งค่าที่คำนวณแล้ว
+    }
+
+}
