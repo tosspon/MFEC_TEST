@@ -51,8 +51,8 @@ public class Shelved_Test {
                         
                         String fromout3 = df.format(date);      //แปลงค่า Date ให้เป็น String จัดรูปแบบเป็น dd/MM/yyyy
                         String fromout4 = df.format(date2);;    //แปลงค่า Date ให้เป็น String จัดรูปแบบเป็น dd/MM/yyyy
-                        System.out.println("เวลาเข้างาน " + fromout3+" นาที");     //แสดงเวลาที่เข้าทำงานโดย จัดรูปแบบเป็น  HH:mm
-                        System.out.println("เวลาออกงาน " + fromout4+" นาที");    //แสดงเวลาที่เลิกงานโดย จัดรูปแบบเป็น  HH:mm
+                        System.out.println("เวลาเข้างาน " + fromout3+" นาฬิกา");     //แสดงเวลาที่เข้าทำงานโดย จัดรูปแบบเป็น  HH:mm
+                        System.out.println("เวลาออกงาน " + fromout4+" นาฬิกา");    //แสดงเวลาที่เลิกงานโดย จัดรูปแบบเป็น  HH:mm
                         double d = kidTang(date, date2);                    //เรียกใช้ method ในการคำนวณ จำนวนชั่วโมงในการทำงาน
                         System.out.println("ค่าแรง/วัน : "+d+" บาท");         //รับค่า sum ที่ return กลับมา และ แสดงค่าแรง/วัน ของบุคคลากร
                         
