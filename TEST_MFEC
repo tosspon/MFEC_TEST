@@ -1,0 +1,111 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.test;
+
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+public class Shelved_Test {
+
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, IOException {
+
+        double moneyHr = 36.25;
+        double MoneyHour = 290.00 / 8;
+        double MoneyOT = MoneyHour * 1.5;
+
+        FileInputStream infile = new FileInputStream("d:/1.working_time.log");
+        InputStreamReader in = new InputStreamReader(infile, "TIS-620");
+
+        try {
+
+            BufferedReader br = new BufferedReader(in);
+
+            String line;
+            int i = 1;
+            while ((line = br.readLine()) != null) {
+                String[] L = line.split("\\|");
+                if (L.length == 5) {
+                    System.out.println("ลำดับ : " + i++);
+                    //for (String c : L) {
+                    System.out.println("ชื่อ : " + L[0]);
+                    //System.out.println("วันที่เข้าทำงาน : " + L[1]);
+                    //System.out.println("วันที่เลิกทำงาน : " + L[3]);
+                    try {
+//                        
+                        DateFormat df = new SimpleDateFormat("HH:mm");
+                        DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy");
+
+                        Date date;
+                        Date date2;
+                        Date date3 = df2.parse(L[1]);
+                        Date date4 = df2.parse(L[3]);
+                        String fromout = df2.format(date3);
+                        String fromout2 = df2.format(date4);
+                        //System.out.println("วันที่เข้าทำงาน : " + df2.format(date3));
+                        //System.out.println("วันที่เข้าทำงาน : " + df2.format(date4));
+                        System.out.println("วันที่เข้าทำงาน : " + fromout);
+                        System.out.println("วันที่เข้าทำงาน : " + fromout2);
+                        date = df.parse(L[2]);
+                        date2 = df.parse(L[4]);
+                        String fromout3 = df.format(date);
+                        String fromout4 = df.format(date2);;
+                        System.out.println("เวลาเข้างาน " + fromout3+" นาที");
+                        System.out.println("เวลาออกงาน " + fromout4+" นาที");
+                        double d = kidTang(date, date2);
+                        System.out.println("ค่าแรง/วัน : "+d+" บาท");
+                        
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    //}
+                    System.out.println("<<<===================================>>>");
+
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+    public static double kidTang(Date datein, Date dateout){
+        double sum = 0.00;
+        double milliTime = dateout.getTime() - datein.getTime();
+        
+        NumberFormat nf = NumberFormat.getNumberInstance();
+        nf.setMaximumFractionDigits(0);
+        nf.setRoundingMode(RoundingMode.HALF_UP);
+        int hour = Integer.parseInt(nf.format(milliTime/(1000*60*60)));
+        
+        sum = sum + (hour/24)*500;
+        if(hour >= 8){
+        hour = (hour-1)%24;
+        }
+        if(hour <= 8) sum = hour*36.25;
+        else sum = hour*36.25;
+        System.out.println("ชั่วโมงทำงาน : "+hour+" ชั่วโมง");
+        return sum;
+    }
+
+}
