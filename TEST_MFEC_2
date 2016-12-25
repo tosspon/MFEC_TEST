@@ -23,7 +23,7 @@ public class Shelved_Test {
 
     public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException, IOException {
 
-        FileInputStream infile = new FileInputStream("d:/1.working_time.log"); //บอกที่อยู่ไฟล์เพื่อรับไฟล์เข้ามาอ่าน
+        FileInputStream infile = new FileInputStream("d:/1.working_time.log"); //อ่านไฟล์จาก url
         InputStreamReader in = new InputStreamReader(infile, "TIS-620");       //รับไฟล์เข้ามาและแปลงภาษาของไฟล์ที่รับเข้ามา
 
         try {
@@ -31,8 +31,8 @@ public class Shelved_Test {
             String line;                                //ประกาศตัวแปรเพื่อใช้ในการอ่านข้อมูลเป็นบรรทัด
             int i = 1;                                  //เก็บค่าในการนับจำนวนคนที่มาทำงาน
             while ((line = br.readLine()) != null) {    //สร้าง Loop เพื่อให้อ่านข้อมูลในไฟล์ทั้งหมดทุกบรรทัด
-                String[] L = line.split("\\|");         //สร้าง array มาเก็บตัวแปรที่ตัดตัวอักขระ | ออก \\มีไว้เพื่อให้อ่านข้อมูลในไฟล์ได้
-                if (L.length == 5) {                    //ถ้า array ที่อ่านได้เท่ากับ 5 บรรทัด
+                String[] L = line.split("\\|");         // \\| เป็นการระบุเครื่องหมายอักขระพิเศษ
+                if (L.length == 5) {                    //ถ้า array ที่ตัดตัวอักขระ | ออก มีขนาด 5
                               
                     System.out.println("ลำดับ : " + i++);    //แสดงลำดับตามจำนวนที่ i นับได้ในการ วน Loop
                     System.out.println("ชื่อ : " + L[0]);     //แสดงชื่อพนักงานในไฟล์ ชื่ออยู่ลำดับ array ที่ 0 เพราะ array จะนับ ตั้งแต่ 0 1 2 3 4
