@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import static java.lang.Math.abs;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Time;
@@ -78,15 +79,12 @@ public class Shelved_Test {
         nf.setMaximumFractionDigits(0);                             //กำหนดเวลาเป็นนาที
         nf.setRoundingMode(RoundingMode.HALF_UP);                   //เป็นการปัดเศษเลขเทศนิยม
         int hour = Integer.parseInt(nf.format(milliTime/(1000*60*60))); //เก็บค่าชั่วโมงโดยคำนวณเวลาเป็น 1 ชั่วโมง
-        
-        if(hour >= 8){              //ถ้า ชม. >= 8 
-        hour = hour-1;         //ชม. = ชม. -1 ลบเวลาพักเที่ยง
-        
+        int Hour = abs(hour);
+        if(Hour >= 8){              //ถ้า ชม. >= 8 
+        Hour = Hour-1;         //ชม. = ชม. -1 ลบเวลาพักเที่ยง
         }
-        
-        sum = hour*36.25;           //คำนวณเงินค่าแรง/วัน
-        System.out.println("ชั่วโมงทำงาน : "+hour+" ชั่วโมง");          //แสดงเวลาที่คำนวณเป็นชั่วโมง
+        sum = Hour*36.25;           //คำนวณเงินค่าแรง/วัน
+        System.out.println("ชั่วโมงทำงาน : "+Hour+" ชั่วโมง");          //แสดงเวลาที่คำนวณเป็นชั่วโมง
         return sum;                                                //ส่งค่าที่คำนวณแล้ว
     }
-
 }
