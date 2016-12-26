@@ -79,12 +79,18 @@ public class Shelved_Test {
         nf.setMaximumFractionDigits(0);                             //กำหนดเวลาเป็นนาที
         nf.setRoundingMode(RoundingMode.HALF_UP);                   //เป็นการปัดเศษเลขเทศนิยม
         int hour = Integer.parseInt(nf.format(milliTime/(1000*60*60))); //เก็บค่าชั่วโมงโดยคำนวณเวลาเป็น 1 ชั่วโมง
-        int Hour = abs(hour);       //abs(hour) คือ เปลี่ยนค่าที่ติด - ให้กลายเป็นค่า +
-        if(Hour >= 8){              //ถ้า ชม. >= 8 
+        
+        int Hour = abs(hour);           //abs(hour) คือ เปลี่ยนค่าที่ติด - ให้กลายเป็นค่า +
+        if(Hour >= 10){                 //ถ้า Hour มากกว่า = 10
+            sum = (Hour*36.25)*1.5;     //คำนวณ ค่าแรง/วัน รวม OT
+            System.out.println("ค่าแรง/วัน รวม OT : "+sum);   //แสดง ค่าแรง/วัน รวม OT 
+        }
+        if(9 == Hour){              //ถ้า ชม. >= 8 
         Hour = Hour-1;         //ชม. = ชม. -1 ลบเวลาพักเที่ยง
+         
         }
         sum = Hour*36.25;           //คำนวณเงินค่าแรง/วัน
         System.out.println("ชั่วโมงทำงาน : "+Hour+" ชั่วโมง");          //แสดงเวลาที่คำนวณเป็นชั่วโมง
-        return sum;                                                //ส่งค่าที่คำนวณแล้ว
+        return sum;                                           //ส่งค่าที่คำนวณแล้ว
     }
 }
