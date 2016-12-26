@@ -79,7 +79,7 @@ public class Shelved_Test {
         nf.setMaximumFractionDigits(0);                             //กำหนดเวลาเป็นนาที
         nf.setRoundingMode(RoundingMode.HALF_UP);                   //เป็นการปัดเศษเลขเทศนิยม
         int hour = Integer.parseInt(nf.format(milliTime/(1000*60*60))); //เก็บค่าชั่วโมงโดยคำนวณเวลาเป็น 1 ชั่วโมง
-        int Hour = abs(hour);
+        int Hour = abs(hour);       //abs(hour) คือ เปลี่ยนค่าที่ติด - ให้กลายเป็นค่า +
         if(Hour >= 8){              //ถ้า ชม. >= 8 
         Hour = Hour-1;         //ชม. = ชม. -1 ลบเวลาพักเที่ยง
         }
